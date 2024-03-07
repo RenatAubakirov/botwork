@@ -1,5 +1,7 @@
 import telebot
 from telebot import types
+
+
 from check_calendar import check_calendar
 
 
@@ -13,6 +15,13 @@ def start(message):
     markup.add(btn1, btn2)
     bot.send_message(message.chat.id, "👋 Привет! Я твой бот-помощник в аутстафе ТК95", reply_markup=markup)
 
+
+## Кнопки
+@bot.message_handler(func=lambda message: message.text == "Старт")
+def start_command(message):
+    bot.send_message(message.chat.id, "Выполняю команду start")
+
+
 # Изменение: Добавлен обработчик для кнопки "Поздороваться"
 @bot.message_handler(func=lambda message: message.text == "👋 Поздороваться")
 def greet(message):
@@ -22,5 +31,8 @@ def greet(message):
 @bot.message_handler(func=lambda message: message.text == "Работа")
 def check_calendar_handler(message):
     check_calendar(bot, message)
+
+
+
 
 bot.polling(none_stop=True)
