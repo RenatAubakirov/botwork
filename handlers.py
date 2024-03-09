@@ -8,7 +8,7 @@ def add_handlers(bot):
         btn1 = types.KeyboardButton("👋 Поздороваться")
         btn2 = types.KeyboardButton("Работа")
         markup.add(btn1, btn2)
-        bot.send_message(message.chat.id, "👋 Привет! Я твой бот-помощник в аутстафе ТК95", reply_markup=markup)
+        bot.send_message(message.chat.id, "👋 Привет! Я твой бот-помощник в аутстафе", reply_markup=markup)
 
     @bot.message_handler(func=lambda message: message.text == "👋 Поздороваться")
     def greet(message):
