@@ -32,3 +32,4 @@ def check_calendar(bot, message):
             # Формируем сообщение с темой и датой события
             msg = f"<b>{summary}</b> - {event_date}"
             bot.send_message(message.chat.id, msg, parse_mode='HTML')
+

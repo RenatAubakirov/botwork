@@ -12,3 +12,4 @@ class Bot:
 if __name__ == "__main__":
     bot = Bot('7029317973:AAFoUffqtX66UOcGK-ye1B0D299LTl0ze4E')
     bot.start_polling()
+
