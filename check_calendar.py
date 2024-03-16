@@ -7,7 +7,7 @@ def check_calendar(bot, message):
     service = discovery.build('calendar', 'v3', credentials=credentials)
 
     now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-    end_of_week = (datetime.datetime.utcnow() + datetime.timedelta(days=7)).isoformat() + 'Z'  # End of the week
+    end_of_week = (datetime.datetime.utcnow() + datetime.timedelta(days=7)).isoformat() + '+07:00'  # End of the week
     print('Checking events from', now, 'to', end_of_week)
 
     eventsResult = service.events().list(
