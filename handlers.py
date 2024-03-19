@@ -1,5 +1,4 @@
 from telebot import types
-from create_shift_button import create_shift_button
 from check_calendar import check_calendar
 from create_shift_button import create_shift_event
 from allowed_users import allowed_users
@@ -26,7 +25,11 @@ def add_handlers(bot):
 
     @bot.message_handler(func=lambda message: message.text == "Работа")
     def check_calendar_handler(message):
-        check_calendar(bot, message)
+        try:
+            check_calendar(bot, message)
+        except Exception as e:
+            print("Произошла ошибка: ", e)
+            bot.send_message(message.chat.id, "Сейчас есть проблемы с сетью. Пожалуйста, попробуйте снова через 20 минут.")
 
     @bot.message_handler(func=lambda message: message.text == "Создать смену")
     def create_shift(message):
@@ -42,5 +45,9 @@ def add_handlers(bot):
 
     def ask_summary(message, date):
         summary = message.text
-        # Создаем событие в календаре
-        create_shift_event(bot, message, date, summary)
+        try:
+            # Создаем событие в календаре
+            create_shift_event(bot, message, date, summary)
+        except Exception as e:
+            print("Произошла ошибка: ", e)
+            bot.send_message(message.chat.id, "Сейчас есть проблемы с сетью. Пожалуйста, попробуйте снова через 20 минут.")
