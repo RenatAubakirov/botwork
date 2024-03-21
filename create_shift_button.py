@@ -17,8 +17,15 @@ def create_shift_event(bot, message, date, summary):
     credentials = service_account.Credentials.from_service_account_file('credentials.json')
     service = discovery.build('calendar', 'v3', credentials=credentials)
 
+    # Проверяем корректность формата даты
+    try:
+        event_date = datetime.datetime.strptime(date, "%d-%m-%Y")
+    except ValueError:
+        bot.send_message(message.chat.id, "Дата введена некорректно. Пожалуйста, нажмите повторно кнопку 'Создать смену' и введите дату в формате ДД-ММ-ГГГГ (например: 01-01-2024).")
+        return
+
     # Формируем дату и время события на 9:00 UTC+07:00
-    event_time = datetime.datetime.strptime(date, "%d-%m-%Y") + datetime.timedelta(hours=7)  # Добавляем 7 часов
+    event_time = event_date + datetime.timedelta(hours=7)  # Добавляем 7 часов
     event_start = event_time.isoformat() + '+07:00'
     event_end = (event_time + datetime.timedelta(hours=1)).isoformat() + '+07:00'
 
