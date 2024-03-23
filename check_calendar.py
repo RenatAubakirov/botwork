@@ -8,7 +8,7 @@ def check_calendar(bot, message):
         service = discovery.build('calendar', 'v3', credentials=credentials)
 
         now = datetime.datetime.utcnow().isoformat() + '+07:00'  # 'Z' indicates UTC time
-        end_of_week = (datetime.datetime.utcnow() + datetime.timedelta(days=7)).isoformat() + '+07:00'  # End of the week
+        end_of_week = (datetime.datetime.utcnow() + datetime.timedelta(days=7)).isoformat() + '+07:00'  # События за 7 дней
         print('Checking events from', now, 'to', end_of_week)
 
         eventsResult = service.events().list(
@@ -21,17 +21,26 @@ def check_calendar(bot, message):
         ).execute()
 
         events = eventsResult.get('items', [])
-        # Вывод
+
         if not events:
             bot.send_message(message.chat.id, 'На этой неделе нет событий в календаре.')
         else:
+            # Сортируем события по датам
+            events.sort(key=lambda x: x['start'].get('dateTime', x['start'].get('date')))
+            current_date = None
+
             for event in events:
                 start = event['start'].get('dateTime', event['start'].get('date'))
                 summary = event['summary']
-                # Извлекаем дату из времени начала события
                 event_date = start.split("T")[0]
-                # Формируем сообщение с темой и датой события
-                msg = f"<b>{summary}</b> - {event_date}"
+
+                # Если дата события изменилась, выводим новую дату
+                if event_date != current_date:
+                    current_date = event_date
+                    bot.send_message(message.chat.id, f"<b>События на {event_date}:</b>", parse_mode='HTML')
+
+                # Выводим событие
+                msg = f"<i>{summary}</i>"
                 bot.send_message(message.chat.id, msg, parse_mode='HTML')
 
     except Exception as e:
