@@ -1,1 +1,1 @@
-allowed_users = ["RenatAubakirov89"]
+allowed_users = ["####"]
