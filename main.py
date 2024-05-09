@@ -18,5 +18,5 @@ class Bot:
                 time.sleep(12)  # 12 секунд
 
 if __name__ == "__main__":
-    bot = Bot('7029317973:AAFoUffqtX66UOcGK-ye1B0D299LTl0ze4E')
+    bot = Bot('7#############')
     bot.start()
